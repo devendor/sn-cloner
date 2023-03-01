@@ -1,6 +1,6 @@
 {
   "name": "@devendor/sn-cloner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Clone tools for scoped servicenow apps.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,7 @@
     "cli.js"
   ],
   "bin": {
-      "sn-cloner": "cli.js"
+    "sn-cloner": "cli.js"
   },
   "main": "index.js",
   "exports": {
@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "@devendor/sn-payload-hashcode": "^1.0.2",
+    "glob": "^9.1.2",
     "nopt": "^5.0.0",
     "uuid": "^9.0.0"
   }
