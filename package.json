@@ -1,0 +1,53 @@
+{
+  "name": "@devendor/sn-cloner",
+  "version": "1.0.0",
+  "description": "Clone tools for scoped servicenow apps.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE.md",
+    "package.json",
+    "lib/cloner.js",
+    "cli.js"
+  ],
+  "bin": {
+      "sn-cloner": "cli.js"
+  },
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cli": "./cli.js"
+  },
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devendor/sn-cloner.git"
+  },
+  "keywords": [
+    "servicenow",
+    "clone"
+  ],
+  "author": "Raymond Ferguson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devendor/sn-cloner/issues"
+  },
+  "homepage": "https://github.com/devendor/sn-cloner#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "eslint": "^8.14.0",
+    "eslint-plugin-jsdoc": "^39.2.9",
+    "eslint-plugin-node": "^11.1.0",
+    "js-beautify": "^1.14.3"
+  },
+  "dependencies": {
+    "@devendor/sn-payload-hashcode": "^1.0.2",
+    "nopt": "^5.0.0",
+    "uuid": "^9.0.0"
+  }
+}
