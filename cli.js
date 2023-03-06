@@ -50,7 +50,7 @@ function usage(err){
     /* eslint-enable */
 }
 
-function interpret(argv,slice){
+async function interpret(argv,slice){
     let parsed,cloner,parent_path;
     try {
         parsed = nopt(knownOpts, shortHands, argv, slice);
@@ -81,9 +81,9 @@ function interpret(argv,slice){
 
     cloner = new CloneUtil(parsed.cloneScope,parent_path);
     if (parsed.action == "clone")
-        cloner.mungeParentToChild();
+        await cloner.mungeParentToChild();
     else if (parsed.action == "merge")
-        cloner.mergeChildToParent();
+        await cloner.mergeChildToParent();
 }
 
 // interpret args immediately when called as executable
