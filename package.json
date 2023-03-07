@@ -1,12 +1,12 @@
 {
   "name": "@devendor/sn-cloner",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Clone tools for scoped servicenow apps.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dist-tags": {
-    "latest": "1.0.7"
+    "latest": "1.0.8"
   },
   "files": [
     "index.js",
