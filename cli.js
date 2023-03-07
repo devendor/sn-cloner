@@ -5,7 +5,7 @@ const nopt = require("nopt"),
       path = require("path"),
       CloneUtil = require(".").CloneUtil,
       knownOpts = {
-          "parentPath": path,
+          "parentPath": String,
           "cloneScope": String,
           "help": Boolean,
           "version": Boolean,
@@ -25,7 +25,7 @@ const nopt = require("nopt"),
     };
 
 function usage(err){
-    let scriptName = path.basename(process.argv[1]),
+    let scriptName = path.posix.basename(process.argv[1]),
         version = require('./package.json').version;
     let msg = [
         scriptName + '@' + version,
