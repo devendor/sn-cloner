@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dist-tags": {
-    "latest": "1.0.6"
+    "latest": "1.0.7"
   },
   "files": [
     "index.js",
