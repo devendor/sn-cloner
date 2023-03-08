@@ -25,7 +25,22 @@
                                         </div>
                                         <div id="jsdoc-main" role="main">
             
-            
+                <article><h1>@devendor/sn-cloner</h1>
+<p>The sn-cloner module provides code to create a copy of a scoped servicenow application repository
+that you can load back into servicenow under a new scoped namespace along side the original scoped
+app.</p>
+<p>It's other noteworthy trick is merging the changes back into the original parent app repository
+where you can commit them and pull them back into the original application.</p>
+<p>With some additional work, this can be part of an ICDS process for servicenow scoped application
+development to address one of the fundemental challenges of running a large dev effort on servicenow.
+That is, one instance can only run a single branch of an application on that instance at a time.</p>
+<p>Basically the expense and complexity of having an instance per developer is prohibitive, so
+developers typically share a dev instance and effectively work out of the &quot;main&quot; branch all of
+the time which is managable for small teams customizing OOB functionality, but a barrier to large
+scale development efforts of custom applications on the platform.</p>
+<p>Some examples are on <a href="https://devendor.github.io/sn-cloner/module-sn-cloner.html">the nested sn-cloner module page</a>
+and the primary API is in the <a href="https://devendor.github.io/sn-cloner/module-sn-cloner.CloneUtil.html">CloneUtil class</a>.</p></article>
+
             <div class="symbol-index">
         <section>
             <div class="symbol-index-content">
