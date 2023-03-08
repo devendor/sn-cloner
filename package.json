@@ -1,12 +1,14 @@
 {
   "name": "@devendor/sn-cloner",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Clone tools for scoped servicenow apps.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-doc": "touch docs/.nojekyll ; ./node_modules/.bin/jsdoc --debug -r -c jsdoc_config.json ; true",
+    "clean-doc": "find docs/ -type f -exec rm '{}' ';'"
   },
   "dist-tags": {
-    "latest": "1.0.8"
+    "latest": "1.0.9"
   },
   "files": [
     "index.js",
@@ -46,7 +48,10 @@
     "eslint": "^8.14.0",
     "eslint-plugin-jsdoc": "^39.2.9",
     "eslint-plugin-node": "^11.1.0",
-    "js-beautify": "^1.14.7"
+    "js-beautify": "^1.14.7",
+    "jsdoc": "^4.0.2",
+    "jsdoc-baseline": "^0.1.5",
+    "jsdoc-to-markdown": "^8.0.0"
   },
   "dependencies": {
     "glob": "^9.1.2",

@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+        <head>
+                <meta name="generator" content="JSDoc 4.0.2">
+                <meta charset="utf-8">
+        <title>Home</title>
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+                <link href="css/baseline.css" rel="stylesheet">
+        </head>
+        <body onload="prettyPrint()">
+                <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+        <div id="jsdoc-navbar-content">
+            <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+        </div>
+    </div>
+</nav>
+
+                <div id="jsdoc-body-container">
+                        <div id="jsdoc-content">
+                                <div id="jsdoc-content-container">
+                                        <div id="jsdoc-banner" role="banner">
+                                        </div>
+                                        <div id="jsdoc-main" role="main">
+            
+            
+            <div class="symbol-index">
+        <section>
+            <div class="symbol-index-content">
+                <h2 id="sn-cloner">sn-cloner</h2>
+                <div class="symbol-index-section">
+                            <div class="symbol-index-column">
+    <dl class="symbol-index-list">
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.html" class="!symbol-index-name">sn-cloner</a>
+            </dt>
+            <dd>
+                        <p>Modular cloner/merger for service-now scoped application repositories.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.html#.calculateGUID" class="!symbol-index-name">sn-cloner.<wbr>calculateGUID(scope_name, source_sys_id)</a>
+            </dt>
+            <dd>
+                        <p>Creates a calculated sys_id based on a namespace hash of the original sys_id.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.html#.getFilesFromGlob" class="!symbol-index-name">sn-cloner.<wbr>getFilesFromGlob([pathGlob])</a>
+            </dt>
+            <dd>
+                        <p>Returns an array of filenames from expanded pathGlob.</p>
+
+            </dd>
+    </dl>
+</div>
+
+                            <div class="symbol-index-column">
+    <dl class="symbol-index-list">
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.html#.getIdsFromFiles" class="!symbol-index-name">sn-cloner.<wbr>getIdsFromFiles([files])</a>
+            </dt>
+            <dd>
+                        <p>Returns sys_ids found in files.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.html#.getIdsFromGlobPath" class="!symbol-index-name">sn-cloner.<wbr>getIdsFromGlobPath([pathGlob])</a>
+            </dt>
+            <dd>
+                        <p>Return sys_ids found in files matching pathGlob.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.html#.name" class="!symbol-index-name">sn-cloner.<wbr>name</a>
+            </dt>
+            <dd>
+                        <p>package.conf name.</p>
+
+            </dd>
+    </dl>
+</div>
+
+                            <div class="symbol-index-column">
+    <dl class="symbol-index-list">
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.html#.version" class="!symbol-index-name">sn-cloner.<wbr>version</a>
+            </dt>
+            <dd>
+                        <p>package.conf version string.</p>
+
+            </dd>
+    </dl>
+</div>
+
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="symbol-index-content">
+                <h2 id="sn-cloner.CloneUtil">sn-cloner.CloneUtil</h2>
+                <div class="symbol-index-section">
+                            <div class="symbol-index-column">
+    <dl class="symbol-index-list">
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil(clone_scope_name[, parent_repo_path])</a>
+            </dt>
+            <dd>
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#clone_app_xml_path" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>clone_app_xml_path</a>
+            </dt>
+            <dd>
+                        <p>Path the the xml files that define the service-now app in the clone.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#clone_path" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>clone_path</a>
+            </dt>
+            <dd>
+                        <p>POSIX style path to clone destination.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#clone_scope_name" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>clone_scope_name</a>
+            </dt>
+            <dd>
+                        <p>name of the scope with illegal chars removed and truncated to 18 chars for compatibility.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#clone_scope_short_name" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>clone_scope_short_name</a>
+            </dt>
+            <dd>
+                        <p>Just splits the x_ prefix off of this.clone_scope_name.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#id_map_file" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>id_map_file</a>
+            </dt>
+            <dd>
+                        <p>Path the the json file used to persist sys_id mapping for the clone so we can re-merge to parent.</p>
+
+            </dd>
+    </dl>
+</div>
+
+                            <div class="symbol-index-column">
+    <dl class="symbol-index-list">
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#initializeClone" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>initializeClone()</a>
+            </dt>
+            <dd>
+                        <p>Called to initialize the clone directories and properties file on intialization when needed.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#mergeChildToParent" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>mergeChildToParent()</a>
+            </dt>
+            <dd>
+                        <p>Called to merge changes from the clone back into the parent.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#mungeParentToChild" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>mungeParentToChild()</a>
+            </dt>
+            <dd>
+                        <p>Called to merge changes from the clone back into the parent.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#mungeString" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>mungeString(string_in[, reverse])</a>
+            </dt>
+            <dd>
+                        <p>Apply string replacements to sys_ids and scopes to change parent files
+to child files for &quot;clone&quot; or the [reverse] to change child files back into
+parent files for &quot;merge&quot;.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#parent_app_file" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>parent_app_file</a>
+            </dt>
+            <dd>
+                        <p>Path the the sys_app_%sys_id%.xml file for the parent app.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#parent_app_xml_path" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>parent_app_xml_path</a>
+            </dt>
+            <dd>
+                        <p>Where the sn_source_control.properties points to for the xml files.</p>
+
+            </dd>
+    </dl>
+</div>
+
+                            <div class="symbol-index-column">
+    <dl class="symbol-index-list">
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#parent_repo_path" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>parent_repo_path</a>
+            </dt>
+            <dd>
+                        <p>POSIX style path to parent repo.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#parent_scope_name" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>parent_scope_name</a>
+            </dt>
+            <dd>
+                        <p>parsed from this.parent_app_file.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#removeAllXml" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>removeAllXml(basepath)</a>
+            </dt>
+            <dd>
+                        <p>Called by both mergeChildToParent and mungeParentToChild to remove all desination
+xml files from either the destination parent or child respectively.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#saveIdMap" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>saveIdMap()</a>
+            </dt>
+            <dd>
+                        <p>Called on init to persist the updated this.id_map to file://%this.id_map_file%.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#updateIdMapFromChild" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>updateIdMapFromChild()</a>
+            </dt>
+            <dd>
+                        <p>Called on init to generate or update file://%this.id_map_file% and this.id_map object with
+corresponding clone-scoped sys_ids for each one found in this.child_app_xml_path that lacks
+a corresponding id for parent.</p>
+
+            </dd>
+            <dt class="symbol-index-name">
+                <a href="module-sn-cloner.CloneUtil.html#updateIdMapFromParent" class="!symbol-index-name">sn-cloner.<wbr>CloneUtil#<wbr>updateIdMapFromParent()</a>
+            </dt>
+            <dd>
+                        <p>Called on init to generate or update file://%this.id_map_file% and this.id_map object with
+corresponding clone-scoped sys_ids for each one found in this.parent_app_xml_path.</p>
+
+            </dd>
+    </dl>
+</div>
+
+                </div>
+            </div>
+        </section>
+</div>
+
+                                        </div>
+                                </div>
+                                <nav id="jsdoc-toc-nav" role="navigation"></nav>
+                        </div>
+                </div>
+                <script src="scripts/jquery.min.js"></script>
+                <script src="scripts/tree.jquery.js"></script>
+                <script src="scripts/prettify.js"></script>
+                <script src="scripts/jsdoc-toc.js"></script>
+                <script src="scripts/linenumber.js"></script>
+                <script src="scripts/scrollanchor.js"></script>
+        </body>
+</html>

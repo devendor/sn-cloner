@@ -1,0 +1,1115 @@
+<!doctype html>
+<html>
+        <head>
+                <meta name="generator" content="JSDoc 4.0.2">
+                <meta charset="utf-8">
+                <title>Class: CloneUtil</title>
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+                <link href="css/baseline.css" rel="stylesheet">
+        </head>
+        <body onload="prettyPrint()">
+                <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+        <div id="jsdoc-navbar-content">
+            <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+        </div>
+    </div>
+</nav>
+
+                <div id="jsdoc-body-container">
+                        <div id="jsdoc-content">
+                                <div id="jsdoc-content-container">
+                                        <div id="jsdoc-main" role="main">
+                    <header class="page-header">
+<div class="symbol-detail-labels"><span class="label label-kind">class</span>&nbsp;<span class="label label-static">static</span></div><h1><small><a href="module-sn-cloner.html">sn-cloner</a>.<wbr></small><span class="symbol-name">CloneUtil</span></h1>        <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-109">lib/<wbr>cloner.<wbr>js:109</a></p>
+            <div class="symbol-classdesc">
+                <p>Will initialize a clone app repo in current working directory or
+load an existing one.
+Parent path must be a path to a git repo that
+contains an sys_app_%sys_id%.xml file optionally in subdir as
+indicate by path= in sn_source_control.properties.</p>
+<p>Cloned repos will put app files in ./%clone_scope_name%/app_xml, create an appropriate
+sn_source_control.properties file and replace the namespace (sys_app.scope)
+and sys_ids for the app files so it can be loaded along side
+the parent. IDs are a calculation based on the original sys_id
+and are also tracked in an idmap within the cloned repo for re-merge.</p>
+            </div>
+        <dl class="dl-compact">
+            
+            
+            
+        </dl>
+</header>
+
+
+    <section id="summary">
+                
+
+                
+
+                
+
+                
+
+                    <div class="summary-callout">
+            <h2 class="summary-callout-heading">Properties</h2>
+        <div class="summary-content">
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.CloneUtil.html#clone_app_xml_path">clone_app_xml_path</a></dt>
+                <dd>
+                            <p>Path the the xml files that define the service-now app in the clone.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#clone_path">clone_path</a></dt>
+                <dd>
+                            <p>POSIX style path to clone destination.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#clone_scope_name">clone_scope_name</a></dt>
+                <dd>
+                            <p>name of the scope with illegal chars removed and truncated to 18 chars for compatibility.</p>
+
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.CloneUtil.html#clone_scope_short_name">clone_scope_short_name</a></dt>
+                <dd>
+                            <p>Just splits the x_ prefix off of this.clone_scope_name.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#id_map_file">id_map_file</a></dt>
+                <dd>
+                            <p>Path the the json file used to persist sys_id mapping for the clone so we can re-merge to parent.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#parent_app_file">parent_app_file</a></dt>
+                <dd>
+                            <p>Path the the sys_app_%sys_id%.xml file for the parent app.</p>
+
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.CloneUtil.html#parent_app_xml_path">parent_app_xml_path</a></dt>
+                <dd>
+                            <p>Where the sn_source_control.properties points to for the xml files.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#parent_repo_path">parent_repo_path</a></dt>
+                <dd>
+                            <p>POSIX style path to parent repo.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#parent_scope_name">parent_scope_name</a></dt>
+                <dd>
+                            <p>parsed from this.parent_app_file.</p>
+
+                </dd>
+        </dl>
+</div>
+
+        </div>
+    </div>
+
+
+                    <div class="summary-callout">
+            <h2 class="summary-callout-heading">Methods</h2>
+        <div class="summary-content">
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.CloneUtil.html#initializeClone">initializeClone()</a></dt>
+                <dd>
+                            <p>Called to initialize the clone directories and properties file on intialization when needed.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#mergeChildToParent">mergeChildToParent()</a></dt>
+                <dd>
+                            <p>Called to merge changes from the clone back into the parent.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#mungeParentToChild">mungeParentToChild()</a></dt>
+                <dd>
+                            <p>Called to merge changes from the clone back into the parent.</p>
+
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.CloneUtil.html#mungeString">mungeString(string_in[, reverse])</a></dt>
+                <dd>
+                            <p>Apply string replacements to sys_ids and scopes to change parent files
+to child files for &quot;clone&quot; or the [reverse] to change child files back into
+parent files for &quot;merge&quot;.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#removeAllXml">removeAllXml(basepath)</a></dt>
+                <dd>
+                            <p>Called by both mergeChildToParent and mungeParentToChild to remove all desination
+xml files from either the destination parent or child respectively.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#saveIdMap">saveIdMap()</a></dt>
+                <dd>
+                            <p>Called on init to persist the updated this.id_map to file://%this.id_map_file%.</p>
+
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.CloneUtil.html#updateIdMapFromChild">updateIdMapFromChild()</a></dt>
+                <dd>
+                            <p>Called on init to generate or update file://%this.id_map_file% and this.id_map object with
+corresponding clone-scoped sys_ids for each one found in this.child_app_xml_path that lacks
+a corresponding id for parent.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.CloneUtil.html#updateIdMapFromParent">updateIdMapFromParent()</a></dt>
+                <dd>
+                            <p>Called on init to generate or update file://%this.id_map_file% and this.id_map object with
+corresponding clone-scoped sys_ids for each one found in this.parent_app_xml_path.</p>
+
+                </dd>
+        </dl>
+</div>
+
+        </div>
+    </div>
+
+
+                
+
+                
+    </section>
+
+
+
+        <section>
+                <h2 id="CloneUtil">new&nbsp;<span class="symbol-name">CloneUtil</span><span class="signature"><span class="signature-params">(clone_scope_name[, parent_repo_path])</span></span></h2>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-109">lib/<wbr>cloner.<wbr>js:109</a></p>
+
+        
+            <section>
+        <h3>
+            Example
+        </h3>
+                <div>
+    <pre class="prettyprint"><code>// note: Still expects unix fs symantics on Windows.
+const CloneUtil &#x3D; require(&#x27;@sn-cloner&#x27;).CloneUtil;
+let cu &#x3D; new CloneUtil(&#x27;x_ray_needit&#x27;,&#x27;../devtraining-needit&#x27;)
+cu.parent_scope_name // -&gt; &quot;x_123980_needit&quot; </code></pre>
+</div>
+
+    </section>
+
+            <section>
+        <h3>Parameters</h3>
+            <table class="jsdoc-details-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Optional</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+        <td>
+            <p>clone_scope_name</p>
+        </td>
+        <td>
+                <p>string</p>
+        </td>
+        <td>
+                <p>&nbsp;</p>
+        </td>
+        <td>
+        </td>
+</tr>
+
+                <tr>
+        <td>
+            <p>parent_repo_path</p>
+        </td>
+        <td>
+                <p>string</p>
+        </td>
+        <td>
+                <p>Yes</p>
+        </td>
+        <td>
+                <p>Defaults to <code>./parent</code>.</p>
+        </td>
+</tr>
+
+        </tbody>
+</table>
+
+    </section>
+
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>CloneUtil</code> </p></dd>
+
+
+
+        </dl>
+
+        </section>
+
+
+            <section>
+            
+
+            
+
+            
+
+                <h2>Properties</h2>
+    <section>
+                <h3 id="clone_app_xml_path"><span class="symbol-name">clone_app_xml_path</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-230">lib/<wbr>cloner.<wbr>js:230</a></p>
+
+            <p>Path the the xml files that define the service-now app in the clone.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).clone_app_xml_path // -&gt; &quot;/Users/rferguson/src/needit-clone/x_foo_needit/app_xml&quot;</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <h3 id="clone_path"><span class="symbol-name">clone_path</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-201">lib/<wbr>cloner.<wbr>js:201</a></p>
+
+            <p>POSIX style path to clone destination. %CWD% + &quot;/&quot; + %clone_scope_name%</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).clone_path // -&gt; &quot;/Users/rferguson/src/needit-clone/x_foo_needit&quot;</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <h3 id="clone_scope_name"><span class="symbol-name">clone_scope_name</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-210">lib/<wbr>cloner.<wbr>js:210</a></p>
+
+            <p>name of the scope with illegal chars removed and truncated to 18 chars for compatibility.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_need--...-it&#x27;,&#x27;../devtraining-needit&#x27;).clone_scope_name // -&gt; &quot;x_foo_needit&quot;</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <h3 id="clone_scope_short_name"><span class="symbol-name">clone_scope_short_name</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-219">lib/<wbr>cloner.<wbr>js:219</a></p>
+
+            <p>Just splits the x_ prefix off of this.clone_scope_name.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).clone_scope_short_name // -&gt; &quot;foo_needit&quot;</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <h3 id="id_map_file"><span class="symbol-name">id_map_file</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-239">lib/<wbr>cloner.<wbr>js:239</a></p>
+
+            <p>Path the the json file used to persist sys_id mapping for the clone so we can re-merge to parent.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).id_map_file // -&gt; &quot;/Users/rferguson/src/needit-clone/x_foo_needit_idmap.json&quot;</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <h3 id="parent_app_file"><span class="symbol-name">parent_app_file</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-248">lib/<wbr>cloner.<wbr>js:248</a></p>
+
+            <p>Path the the sys_app_%sys_id%.xml file for the parent app. This is used to parse out this.parent_scope_name for replacements.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).parent_app_file // -&gt; &quot;/Users/rferguson/src/devtraining-needit/sys_app_0987654321...xml&quot;</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <h3 id="parent_app_xml_path"><span class="symbol-name">parent_app_xml_path</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-274">lib/<wbr>cloner.<wbr>js:274</a></p>
+
+            <p>Where the sn_source_control.properties points to for the xml files.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).parent_app_xml_path // -&gt; &quot;/Users/rferguson/src/needit-clone/&quot;</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <h3 id="parent_repo_path"><span class="symbol-name">parent_repo_path</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-192">lib/<wbr>cloner.<wbr>js:192</a></p>
+
+            <p>POSIX style path to parent repo.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).parent_repo_path // -&gt; &quot;/Users/rferguson/src/devtraining-needit&quot;</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <h3 id="parent_scope_name"><span class="symbol-name">parent_scope_name</span><small class="property-type">
+            &nbsp;string</small></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-255">lib/<wbr>cloner.<wbr>js:255</a></p>
+
+            <p>parsed from this.parent_app_file. Throws if the file doesn't exist.</p>
+
+        
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+    </section>
+
+
+                <h2>Methods</h2>
+    <section>
+                <h3 id="initializeClone"><span class="symbol-name">initializeClone</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> CloneUtil</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-143">lib/<wbr>cloner.<wbr>js:143</a></p>
+
+            <p>Called to initialize the clone directories and properties file on intialization when needed.</p>
+
+        
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>CloneUtil</code> </p></dd>
+
+
+
+        </dl>
+
+                <div class="symbol-detail-labels"><span class="label label-async">async</span></div><h3 id="mergeChildToParent"><span class="symbol-name">mergeChildToParent</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> Promise</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-331">lib/<wbr>cloner.<wbr>js:331</a></p>
+
+            <p>Called to merge changes from the clone back into the parent.
+Note: We expect this.parent_app_repo to be set at the commit we cloned from.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).mungeChildToParent()
+// cd ../devtraing-needit  ; git diff --stat // -&gt; you will see the incremental changes from the child!</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>Promise</code> </p></dd>
+
+
+
+        </dl>
+
+                <div class="symbol-detail-labels"><span class="label label-async">async</span></div><h3 id="mungeParentToChild"><span class="symbol-name">mungeParentToChild</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> Promise</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-286">lib/<wbr>cloner.<wbr>js:286</a></p>
+
+            <p>Called to merge changes from the clone back into the parent.
+Note: We expect this.parent_app_repo to be set at the commit we cloned from.</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).mungeParentToChild();
+// you should have an app repo your and push then checkout right in %CWD% now!</code></pre>
+</div>
+
+    </section>
+
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>Promise</code> </p></dd>
+
+
+
+        </dl>
+
+                <h3 id="mungeString"><span class="symbol-name">mungeString</span><span class="signature"><span class="signature-params">(string_in[, reverse])</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-404">lib/<wbr>cloner.<wbr>js:404</a></p>
+
+            <p>Apply string replacements to sys_ids and scopes to change parent files
+to child files for &quot;clone&quot; or the [reverse] to change child files back into
+parent files for &quot;merge&quot;.</p>
+
+        
+            <section>
+        <h4>Parameters</h4>
+            <table class="jsdoc-details-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Optional</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+        <td>
+            <p>string_in</p>
+        </td>
+        <td>
+                <p>string</p>
+        </td>
+        <td>
+                <p>&nbsp;</p>
+        </td>
+        <td>
+        </td>
+</tr>
+
+                <tr>
+        <td>
+            <p>reverse</p>
+        </td>
+        <td>
+                <p>Boolean</p>
+        </td>
+        <td>
+                <p>Yes</p>
+        </td>
+        <td>
+                <p>set to true to mung a child string back to a parent string.</p>
+                <p>Defaults to <code>false</code>.</p>
+        </td>
+</tr>
+
+        </tbody>
+</table>
+
+    </section>
+
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <div class="symbol-detail-labels"><span class="label label-async">async</span></div><h3 id="removeAllXml"><span class="symbol-name">removeAllXml</span><span class="signature"><span class="signature-params">(basepath)</span>&nbsp;&rarr; <span class="signature-returns"> Promise</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-382">lib/<wbr>cloner.<wbr>js:382</a></p>
+
+            <p>Called by both mergeChildToParent and mungeParentToChild to remove all desination
+xml files from either the destination parent or child respectively.</p>
+<p>We preserve this.parent_app_file since it is used for other attribute calculations
+but everything else is removed and regenerated in the clone or merge process currently.
+This is primarily needed to accomodate the deleted files. A delete of update/abc.xml
+removes update/abc.xml and adds author_elective_update. Basically ./author_elective_updates/*.xml
+correspond to [sys_metadata_delete] &quot;Deleted Application Files&quot; while ./update/*.xml
+correspond to [sys_metadata] &quot;Application Files&quot;</p>
+
+        
+            <section>
+        <h4>Parameter</h4>
+            <table class="jsdoc-details-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Optional</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+        <td>
+            <p>basepath</p>
+        </td>
+        <td>
+                <p>string</p>
+        </td>
+        <td>
+                <p>&nbsp;</p>
+        </td>
+        <td>
+                <p>path to remove xml files from.</p>
+        </td>
+</tr>
+
+        </tbody>
+</table>
+
+    </section>
+
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>Promise</code> </p></dd>
+
+
+
+        </dl>
+
+                <h3 id="saveIdMap"><span class="symbol-name">saveIdMap</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> CloneUtil</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-182">lib/<wbr>cloner.<wbr>js:182</a></p>
+
+            <p>Called on init to persist the updated this.id_map to file://%this.id_map_file%.
+Note: The values are calculated based on namespace so any given sys_id will
+create a consistent calculated sys_id essentially hashing in the scope name with
+the original id.</p>
+
+        
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>CloneUtil</code> </p></dd>
+
+
+
+        </dl>
+
+                <h3 id="updateIdMapFromChild"><span class="symbol-name">updateIdMapFromChild</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> CloneUtil</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-167">lib/<wbr>cloner.<wbr>js:167</a></p>
+
+            <p>Called on init to generate or update file://%this.id_map_file% and this.id_map object with
+corresponding clone-scoped sys_ids for each one found in this.child_app_xml_path that lacks
+a corresponding id for parent.</p>
+
+        
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>CloneUtil</code> </p></dd>
+
+
+
+        </dl>
+
+                <h3 id="updateIdMapFromParent"><span class="symbol-name">updateIdMapFromParent</span><span class="signature"><span class="signature-params">()</span>&nbsp;&rarr; <span class="signature-returns"> CloneUtil</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-154">lib/<wbr>cloner.<wbr>js:154</a></p>
+
+            <p>Called on init to generate or update file://%this.id_map_file% and this.id_map object with
+corresponding clone-scoped sys_ids for each one found in this.parent_app_xml_path</p>
+
+        
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>CloneUtil</code> </p></dd>
+
+
+
+        </dl>
+
+    </section>
+
+
+            
+
+            
+</section>
+
+                                        </div>
+                                </div>
+                                <nav id="jsdoc-toc-nav" role="navigation"></nav>
+                        </div>
+                </div>
+                <script src="scripts/jquery.min.js"></script>
+                <script src="scripts/tree.jquery.js"></script>
+                <script src="scripts/prettify.js"></script>
+                <script src="scripts/jsdoc-toc.js"></script>
+                <script src="scripts/linenumber.js"></script>
+                <script src="scripts/scrollanchor.js"></script>
+        </body>
+</html>

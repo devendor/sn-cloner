@@ -1,0 +1,489 @@
+<!doctype html>
+<html>
+        <head>
+                <meta name="generator" content="JSDoc 4.0.2">
+                <meta charset="utf-8">
+                <title>Source: lib/cloner.js</title>
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+                <link href="css/baseline.css" rel="stylesheet">
+        </head>
+        <body onload="prettyPrint()">
+                <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+        <div id="jsdoc-navbar-content">
+            <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+        </div>
+    </div>
+</nav>
+
+                <div id="jsdoc-body-container">
+                        <div id="jsdoc-content">
+                                <div id="jsdoc-content-container">
+                                        <div id="jsdoc-banner" role="banner">
+                                        </div>
+                                        <div id="jsdoc-main" role="main">
+            <header class="page-header">
+                <h1>Source: lib/cloner.js</h1>
+            </header>
+            <article>
+                <pre class="prettyprint linenums"><code>{
+    
+    let glob &#x3D; require(&quot;glob&quot;),
+        fs &#x3D; require(&quot;fs&quot;),
+        path &#x3D; require(&quot;path&quot;);
+
+
+    const idXmlRegEx &#x3D; new RegExp(&quot;&amp;lt;sys_id&gt;([0-9a-f]{32})&amp;lt;/sys_id&gt;&quot;, &#x27;gi&#x27;);
+    const fileNameRegEx &#x3D; new RegExp(&quot;_([0-9a-f]{32})(?:.xml|_[^.]+.xml)$&quot;, &quot;i&quot;);
+
+    /**
+     * Creates a calculated sys_id based on a namespace hash of the original sys_id.
+     * @alias module:sn-cloner.calculateGUID
+     * @param {string} scope_name 
+     * @param {string} source_sys_id 
+     * @returns {string} 
+     */
+    let calculateGUID &#x3D; (scope_name, source_sys_id) &#x3D;&gt; {
+        const uuid &#x3D; require(&#x27;uuid&#x27;).v5;
+        return uuid(source_sys_id + &quot;.&quot; + scope_name, uuid.DNS).replace(/-/g, &#x27;&#x27;);
+    };
+
+    /**
+     * Returns an array of filenames from expanded pathGlob
+     * @alias module:sn-cloner.getFilesFromGlob
+     * @param {string} [pathGlob]
+     * @return {array} file paths.
+     * @example
+     * let globPattern &#x3D; &quot;parent/**&quot;+&quot;/*.xml&quot; ; // Stay in the comment for the example.
+     * let xml_files &#x3D; getFilesFromGlob(globPattern); &#x3D;&gt; [ &quot;parent/.../asdfsdfsa.xml&quot;, ... ]
+     */
+    let getFilesFromGlob &#x3D; (pathGlob) &#x3D;&gt; {
+        return glob.globSync(pathGlob, {
+            absolute: true,
+            mark: true,
+            ignore: [&#x27;**/node_modules/**&#x27;, &#x27;**/.git/**&#x27;],
+            platform: &#x27;linux&#x27;
+        },);
+
+    };
+
+
+    /**
+     * Returns sys_ids found in files
+     * @alias module:sn-cloner.getIdsFromFiles
+     * @param {array} [files] file paths.
+     * @returns {array} unique sys_ids found in files and filenames.
+     * @example
+     * let globPattern &#x3D; &quot;parent/**&quot;+&quot;/*.xml&quot; ; // Stay in the comment for the example.
+     * let xml_files &#x3D; getFilesFromGlob(globPattern); &#x3D;&gt; [ &quot;parent/.../asdfsdfsa.xml&quot;, ... ]
+     * let ids &#x3D; getIdsFromFiles(xml_files) ; &#x3D;&gt; [&#x27;deadbeefdeadbeef0123456789abcdef&#x27;, ... ]
+     */
+    let getIdsFromFiles &#x3D; (files) &#x3D;&gt; {
+        let ids &#x3D; [];
+        files.forEach((file) &#x3D;&gt; {
+            let m, _data;
+            _data &#x3D; fs.readFileSync(file, &#x27;utf8&#x27;);
+            /* eslint-disable no-cond-assign */
+            if (m &#x3D; fileNameRegEx.exec(file)) {
+                if (ids.indexOf(m[1]) &#x3D;&#x3D; -1) ids.push(m[1]);
+            }
+            while (m &#x3D; idXmlRegEx.exec(_data)) {
+                if (ids.indexOf(m[1]) &#x3D;&#x3D; -1) ids.push(m[1]);
+            }
+            /* eslint-enable */
+        });
+        ids.sort();
+        return ids;
+    };
+
+    /**
+     * Return sys_ids found in files matching pathGlob
+     * @alias module:sn-cloner.getIdsFromGlobPath
+     * @param {string} [pathGlob] a glob that gets expanded to matching files
+     * @returns {array} sys_ids found in files and filenames identified in pathGlob expansion.
+     * @example
+     * let globPattern &#x3D; &quot;parent/**&quot;+&quot;/*.xml&quot; ; // Stay in the comment for the example.
+     * let ids &#x3D; getIdsFromGlobPath(pathGlob) ; &#x3D;&gt; [&#x27;deadbeefdeadbeef0123456789abcdef&#x27;, ... ]
+     */
+    let getIdsFromGlobPath &#x3D; (pathGlob) &#x3D;&gt; {
+        return getIdsFromFiles(getFilesFromGlob(pathGlob));
+    };
+    /**
+    * Will initialize a clone app repo in current working directory or
+    * load an existing one.
+
+    * Parent path must be a path to a git repo that
+    * contains an sys_app_%sys_id%.xml file optionally in subdir as
+    * indicate by path&#x3D; in sn_source_control.properties.
+    * 
+    * Cloned repos will put app files in ./%clone_scope_name%/app_xml, create an appropriate
+    * sn_source_control.properties file and replace the namespace (sys_app.scope)
+    * and sys_ids for the app files so it can be loaded along side
+    * the parent. IDs are a calculation based on the original sys_id
+    * and are also tracked in an idmap within the cloned repo for re-merge.
+    *
+    * @class 
+    * @alias module:sn-cloner.CloneUtil
+    * @no-default-init 
+    * @param {string} clone_scope_name 
+    * @param {string} [parent_repo_path&#x3D;./parent]
+    * @returns {CloneUtil}
+    * @example
+    * // note: Still expects unix fs symantics on Windows.
+    * const CloneUtil &#x3D; require(&#x27;@sn-cloner&#x27;).CloneUtil;
+    * let cu &#x3D; new CloneUtil(&#x27;x_ray_needit&#x27;,&#x27;../devtraining-needit&#x27;)
+    * cu.parent_scope_name // -&gt; &quot;x_123980_needit&quot; 
+    */
+    class CloneUtil {
+        #clone_scope_name;
+        #parent_repo_path;
+        #parent_scope_name;
+        #id_map;
+
+        constructor(clone_scope_name, parent_repo_path &#x3D; &quot;./parent&quot;) {
+            if (typeof clone_scope_name !&#x3D; &quot;string&quot; &amp;amp;&amp;amp; clone_scope_name.length &amp;lt; 10) {
+                throw new Error(&quot;clone_scope_path must be specified&quot;);
+            }
+
+            this.#parent_repo_path &#x3D; parent_repo_path;
+            if (!fs.existsSync(this.parent_repo_path)) {
+                throw new Error(&quot;Parent path must exist : NOT_FOUND - &quot;+this.parent_repo_path);
+            }
+            this.#clone_scope_name &#x3D; String(clone_scope_name).toLowerCase().replace(/[^0-9a-z_]/g,&quot;&quot;).slice(0, 18);
+            if (!fs.existsSync(this.clone_path)) {
+                this.initializeClone();
+            }
+            if (!fs.existsSync(this.id_map_file)) {
+                this.#id_map &#x3D; {};
+                this.updateIdMapFromParent();
+            } else {
+                this.#id_map &#x3D; require(path.posix.resolve(this.id_map_file));
+                this.updateIdMapFromParent();
+                this.updateIdMapFromChild();
+            }
+            this.saveIdMap();
+        }
+
+        /**
+         * Called to initialize the clone directories and properties file on intialization when needed.
+         * @return {CloneUtil}
+         */
+        initializeClone() {
+            fs.mkdirSync(this.clone_path);
+            fs.mkdirSync(this.clone_app_xml_path);
+            fs.writeFileSync(&quot;./sn_source_control.properties&quot;, &quot;path&#x3D;&quot; + this.clone_scope_name + &quot;/app_xml\n&quot;);
+            return this;
+        }
+        /**
+         * Called on init to generate or update file://%this.id_map_file% and this.id_map object with
+         * corresponding clone-scoped sys_ids for each one found in this.parent_app_xml_path
+         * @returns {CloneUtil}
+         */
+        updateIdMapFromParent() {
+            getIdsFromGlobPath(this.parent_repo_path + &quot;/**/*.xml&quot;)
+                .forEach((id) &#x3D;&gt; {
+                    if (!(id in this.#id_map)) this.#id_map[id] &#x3D; calculateGUID(this.#clone_scope_name, id);
+                });
+            return this;
+        }
+        /**
+         * Called on init to generate or update file://%this.id_map_file% and this.id_map object with
+         * corresponding clone-scoped sys_ids for each one found in this.child_app_xml_path that lacks
+         * a corresponding id for parent.
+         * @returns {CloneUtil}
+         */
+        updateIdMapFromChild() {
+            let seen &#x3D; Object.values(this.#id_map);
+            getIdsFromGlobPath(this.clone_app_xml_path + &quot;/**/*.xml&quot;)
+                .forEach((id) &#x3D;&gt; {
+                    if (seen.indexOf(id) &#x3D;&#x3D; -1) this.#id_map[calculateGUID(this.parent_scope_name, id)] &#x3D; id;
+                });
+            return this;
+        }
+        /**
+         * Called on init to persist the updated this.id_map to file://%this.id_map_file%. 
+         * Note: The values are calculated based on namespace so any given sys_id will 
+         * create a consistent calculated sys_id essentially hashing in the scope name with
+         * the original id.
+         * @returns {CloneUtil}
+         */
+        saveIdMap() {
+            fs.writeFileSync(this.id_map_file, JSON.stringify(this.#id_map, null, 1));
+            return this;
+        }
+        /**
+         * POSIX style path to parent repo.      
+         * @member {string}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).parent_repo_path // -&gt; &quot;/Users/rferguson/src/devtraining-needit&quot;
+         */
+        get parent_repo_path() {
+            return path.posix.resolve(this.#parent_repo_path);
+        }
+        /**
+         * POSIX style path to clone destination. %CWD% + &quot;/&quot; + %clone_scope_name% 
+         * @member {string}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).clone_path // -&gt; &quot;/Users/rferguson/src/needit-clone/x_foo_needit&quot;
+         */
+        get clone_path() {
+            return path.posix.resolve(&quot;./&quot; + this.clone_scope_name);
+        }
+        /**
+         * name of the scope with illegal chars removed and truncated to 18 chars for compatibility.
+         * @member {string}
+         * @example
+         * new CloneUtil(&#x27;x_foo_need--...-it&#x27;,&#x27;../devtraining-needit&#x27;).clone_scope_name // -&gt; &quot;x_foo_needit&quot;
+         */
+        get clone_scope_name() {
+            return this.#clone_scope_name;
+        }
+        /**
+         * Just splits the x_ prefix off of this.clone_scope_name.
+         * @member {string}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).clone_scope_short_name // -&gt; &quot;foo_needit&quot;
+         */
+        get clone_scope_short_name() {
+            let name_parts &#x3D; this.clone_scope_name.split(&quot;_&quot;);
+            name_parts.shift();
+            return name_parts.join(&quot;_&quot;);
+        }
+        /**
+         * Path the the xml files that define the service-now app in the clone.
+         * @member {string}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).clone_app_xml_path // -&gt; &quot;/Users/rferguson/src/needit-clone/x_foo_needit/app_xml&quot;
+         */
+        get clone_app_xml_path() {
+            return this.clone_path + &quot;/app_xml&quot;;
+        }
+        /**
+         * Path the the json file used to persist sys_id mapping for the clone so we can re-merge to parent.
+         * @member {string}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).id_map_file // -&gt; &quot;/Users/rferguson/src/needit-clone/x_foo_needit_idmap.json&quot;
+         */
+        get id_map_file() {
+            return path.posix.resolve(&quot;./&quot;) + &quot;/&quot;+this.clone_scope_name+&quot;_idmap.json&quot;;
+        }
+        /**
+         * Path the the sys_app_%sys_id%.xml file for the parent app. This is used to parse out this.parent_scope_name for replacements.
+         * @member {string}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).parent_app_file // -&gt; &quot;/Users/rferguson/src/devtraining-needit/sys_app_0987654321...xml&quot;
+         */
+        get parent_app_file() {
+            return getFilesFromGlob(String(this.parent_repo_path) + &quot;/**/sys_app_*.xml&quot;).filter(x &#x3D;&gt; x.match(/sys_app_[0-9a-fA-F]{32}\.xml$/)).shift();
+        }
+        /**
+         * parsed from this.parent_app_file. Throws if the file doesn&#x27;t exist.
+         * @member {string}
+         */
+        get parent_scope_name() {
+            const scope_regex &#x3D; RegExp(&#x27;&amp;lt;scope[^&amp;lt;]*?&gt;([^&amp;lt;]*)&amp;lt;/scope&gt;&#x27;, &#x27;g&#x27;);
+            if (!this.#parent_scope_name) {
+                let xml_data &#x3D; fs.readFileSync(this.parent_app_file, &#x27;utf8&#x27;);
+                let m &#x3D; scope_regex.exec(xml_data);
+                if (m) {
+                    this.#parent_scope_name &#x3D; m[1];
+                } else {
+                    throw new Error(&quot;Unable to find sys_app_....xml:&amp;lt;scope&gt; element&quot;);
+                }
+            }
+            return this.#parent_scope_name;
+        }
+        /**
+         * Where the sn_source_control.properties points to for the xml files. 
+         * @member {string}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).parent_app_xml_path // -&gt; &quot;/Users/rferguson/src/needit-clone/&quot;
+         */
+        get parent_app_xml_path() {
+            return path.posix.resolve(path.dirname(this.parent_app_file));
+        }
+
+        /**
+         * Called to merge changes from the clone back into the parent.
+         * Note: We expect this.parent_app_repo to be set at the commit we cloned from.
+         * @returns {Promise}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).mungeParentToChild();
+         * // you should have an app repo your and push then checkout right in %CWD% now!
+         */
+        async mungeParentToChild() {
+            let parent_files &#x3D; getFilesFromGlob(this.parent_app_xml_path + &quot;/**/*&quot;);
+            let i; 
+            let promises &#x3D; [];
+            await this.removeAllXml(this.clone_app_xml_path);
+            for (i &#x3D; 0; i &amp;lt; parent_files.length; i++) {
+                let new_filename, p, pp;
+                new_filename &#x3D; this.mungeString(parent_files[i]);
+                if (new_filename.endsWith(&quot;/&quot;)) {
+                    if (!fs.existsSync(new_filename)) {
+                        fs.mkdirSync(new_filename, { recursive: true });
+                    }
+                } else if (
+                    new_filename.endsWith(&#x27;sn_source_control.properties&#x27;) ||
+                    new_filename.endsWith(&#x27;checksum.txt&#x27;)
+                ) {
+                    continue;
+                } else {
+                    p &#x3D; fs.readFile(
+                        path.posix.resolve(parent_files[i]),
+                        { encoding: &#x27;utf8&#x27; },
+                        (err, data) &#x3D;&gt; {
+                            if (err) throw err;
+                            pp &#x3D; fs.writeFile(
+                                new_filename,
+                                this.mungeString(String(data)), { encoding: &quot;utf8&quot; },
+                                (err) &#x3D;&gt; { if (err) throw err; }
+                            );
+                            promises.push(pp);
+                        } // end callback
+                    );
+                    promises.push(p);
+                }
+            }
+            await Promise.all(promises);
+        }
+
+        /**
+         * Called to merge changes from the clone back into the parent.
+         * Note: We expect this.parent_app_repo to be set at the commit we cloned from.
+         * @returns {Promise}
+         * @example
+         * new CloneUtil(&#x27;x_foo_needit&#x27;,&#x27;../devtraining-needit&#x27;).mungeChildToParent()
+         * // cd ../devtraing-needit  ; git diff --stat // -&gt; you will see the incremental changes from the child!
+         */
+        async mergeChildToParent() {
+            let child_files &#x3D; getFilesFromGlob(this.clone_app_xml_path + &quot;/**/*&quot;);
+            let i; 
+            let promises &#x3D; [];
+            await this.removeAllXml(this.parent_app_xml_path);
+            for (i &#x3D; 0; i &amp;lt; child_files.length; i++) {
+                let new_filename, p, pp;
+                new_filename &#x3D; this.mungeString(child_files[i], true);
+                if (new_filename.endsWith(&quot;/&quot;)) {
+                    if (!fs.existsSync(new_filename)) {
+                        fs.mkdirSync(new_filename, { recursive: true });
+                    }
+                } else if (
+                    new_filename.endsWith(&#x27;sn_source_control.properties&#x27;) ||
+                    new_filename.endsWith(&#x27;checksum.txt&#x27;)
+                ) {
+                    continue;
+                } else {
+                    //console.log(&quot;%s -&gt; %s&quot;, child_files[i], new_filename);
+                    p &#x3D; fs.readFile(
+                        child_files[i], { encoding: &#x27;utf8&#x27; },
+                        (err, data) &#x3D;&gt; {
+                            if (err) throw err;
+                            pp &#x3D; fs.writeFile(
+                                new_filename,
+                                this.mungeString(String(data), true), { encoding: &quot;utf8&quot; },
+                                (err) &#x3D;&gt; { if (err) throw err; }
+                            );
+                            promises.push(pp);
+                        } // end promises
+                    );
+                    promises.push(p);
+                } //end else
+            } // end for
+            await Promise.all(promises);
+            return this;
+        }
+        /**
+         * Called by both mergeChildToParent and mungeParentToChild to remove all desination
+         * xml files from either the destination parent or child respectively.
+         *
+         * We preserve this.parent_app_file since it is used for other attribute calculations
+         * but everything else is removed and regenerated in the clone or merge process currently.
+         * This is primarily needed to accomodate the deleted files. A delete of update/abc.xml
+         * removes update/abc.xml and adds author_elective_update. Basically ./author_elective_updates/\*.xml
+         * correspond to [sys_metadata_delete] &quot;Deleted Application Files&quot; while ./update/\*.xml
+         * correspond to [sys_metadata] &quot;Application Files&quot;
+         *
+         * @param {string} basepath path to remove xml files from.
+         * @returns {Promise}
+         */
+        async removeAllXml(basepath) {
+            let remove_files;
+            let promises &#x3D; [];
+            if (basepath &#x3D;&#x3D; this.parent_app_xml_path || basepath &#x3D;&#x3D; this.clone_app_xml_path) {
+                remove_files &#x3D; getFilesFromGlob(basepath + &quot;/**/*.xml&quot;);
+                for (let i &#x3D; 0; i &amp;lt; remove_files.length; i++) {
+                    if (remove_files[i] !&#x3D; this.parent_app_file)
+                        promises.push(fs.rm(remove_files[i], {}, (err) &#x3D;&gt; { if (err) throw err; }));
+                }
+            } else {
+                throw new Error(&quot;This module only allows removeAllXml to exec on [parent|child]_app_xml_paths&quot;);
+            }
+            await Promise.all(promises);
+            return this;
+        }
+        /**
+         * Apply string replacements to sys_ids and scopes to change parent files
+         * to child files for &quot;clone&quot; or the [reverse] to change child files back into
+         * parent files for &quot;merge&quot;.
+         * @param {string} string_in
+         * @param {Boolean} [reverse&#x3D;false] set to true to mung a child string back to a parent string.
+         */
+        mungeString(string_in, reverse) {
+            let r &#x3D; String(string_in);
+            let from;
+            let to;
+            if (!reverse) {
+                if (r.includes(this.parent_app_xml_path)) {
+                    let reg &#x3D; new RegExp(this.parent_scope_name+&quot;_&quot;, &#x27;g&#x27;);
+                    r &#x3D; r.replace(this.parent_app_xml_path, this.clone_app_xml_path);
+                    r &#x3D; r.replace(reg, this.clone_scope_name+&quot;_&quot;);
+                } else {
+                    let reg &#x3D; new RegExp(this.parent_scope_name, &#x27;g&#x27;);
+                    r &#x3D; r.replace(reg, this.clone_scope_name);
+                }
+                from &#x3D; Object.keys(this.#id_map);
+                to &#x3D; Object.values(this.#id_map);
+            } else {
+                if (r.includes(this.clone_app_xml_path)) {
+                    let reg &#x3D; new RegExp(this.clone_scope_name+&#x27;_&#x27;, &#x27;g&#x27;);
+                    r &#x3D; r.replace(this.clone_app_xml_path, this.parent_app_xml_path);
+                    r &#x3D; r.replace(reg, this.parent_scope_name+&#x27;_&#x27;);
+                } else {
+                    let reg &#x3D; new RegExp(this.clone_scope_name, &#x27;g&#x27;);
+                    r &#x3D; r.replace(reg, this.parent_scope_name);
+                }
+                to &#x3D; Object.keys(this.#id_map);
+                from &#x3D; Object.values(this.#id_map);
+            }
+            for (let i &#x3D; 0; i &amp;lt; from.length; i++) {
+                let reg &#x3D; new RegExp(from[i], &#x27;g&#x27;);
+                r &#x3D; r.replace(reg, to[i]);
+            }
+            return r;
+        }
+    }
+
+    exports.getFilesFromGlob &#x3D; getFilesFromGlob;
+    exports.getIdsFromFiles &#x3D; getIdsFromFiles;
+    exports.getIdsFromGlobPath &#x3D; getIdsFromGlobPath;
+    exports.CloneUtil &#x3D; CloneUtil;
+    exports.generateGUID &#x3D; calculateGUID;
+    exports.calculateGUID;
+}</code></pre>
+            </article>
+                                        </div>
+                                </div>
+                                <nav id="jsdoc-toc-nav" role="navigation"></nav>
+                        </div>
+                </div>
+                <script src="scripts/jquery.min.js"></script>
+                <script src="scripts/tree.jquery.js"></script>
+                <script src="scripts/prettify.js"></script>
+                <script src="scripts/jsdoc-toc.js"></script>
+                <script src="scripts/linenumber.js"></script>
+                <script src="scripts/scrollanchor.js"></script>
+        </body>
+</html>

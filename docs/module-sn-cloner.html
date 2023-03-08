@@ -1,0 +1,637 @@
+<!doctype html>
+<html>
+        <head>
+                <meta name="generator" content="JSDoc 4.0.2">
+                <meta charset="utf-8">
+                <title>Module: sn-cloner</title>
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+                <link href="css/baseline.css" rel="stylesheet">
+        </head>
+        <body onload="prettyPrint()">
+                <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+        <div id="jsdoc-navbar-content">
+            <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+        </div>
+    </div>
+</nav>
+
+                <div id="jsdoc-body-container">
+                        <div id="jsdoc-content">
+                                <div id="jsdoc-content-container">
+                                        <div id="jsdoc-main" role="main">
+                    <header class="page-header">
+<div class="symbol-detail-labels"><span class="label label-kind">module</span></div><h1><small></small><span class="symbol-name">sn-cloner</span></h1>        <p class="source-link">Source: <a href="index.js.html">index.<wbr>js</a></p>
+                <div class="symbol-description">
+                        <p>Modular cloner/merger for service-now scoped application repositories.</p>
+
+                </div>
+                <section>
+        <h2>
+            Examples
+        </h2>
+                <div>
+        <p>create new clone repo in current working directory</p>
+    <pre class="prettyprint"><code>{
+   const CloneUtil &#x3D; require(&quot;@devendor/sn-cloner&quot;).CloneUtil;
+    new CloneUtil(&#x27;x_mydev_needit&#x27;,&#x27;../devtraining-needit-tokyo&#x27;)
+      .mungeParentToChild(); // -&gt; {Promise}
+}</code></pre>
+</div>
+
+                <div>
+        <p>invoking the cli with npx</p>
+    <pre class="prettyprint"><code>rfergu$ npx @devendor/sn-cloner
+npx: installed 12 in 2.479s
+sn-cloner@1.0.8
+ 
+CLI OPTIONS:
+ -p, --parentPath&#x3D;[./parent]  Path to parent app we clone from.
+ -s, --cloneScope  Scope name for cloned app.
+ --action [clone|merge] Clone from parent or merge to parent.
+ -m  Shorthand for --action merge
+ -c  Shorthand for --action clone
+ -h, --help       Show this help
+ -v, --version   Show package version
+ --cloneScope is a required argument</code></pre>
+</div>
+
+                <div>
+        <p>installed locally</p>
+    <pre class="prettyprint"><code>rfergu$ npm install @devendor/sn-cloner --save-dev
+# ...  installs here
+rfergu$ ./node_modules/.bin/sn-cloner
+sn-cloner@1.0.8
+# usage ... </code></pre>
+</div>
+
+                <div>
+        <p>create a new repo from parent repo in new scoped namespace</p>
+    <pre class="prettyprint"><code>rfergu$ sn-cloner -p ../parent_app_repo -s x_george_cloney -c
+rfergu$ ls
+  sn_source_control.properties x_george_cloney/... x_george_cloney_idmap.json
+rfergu$ git init .
+rfergu$ git branch -M main
+rfergu$ git add .
+rfergu$ git commit -m &quot;George Cloney is just like his dad.&quot;
+# add a repo to push too first.
+rfergu$ git remote add git@github.com:youraccount/george-cloney.git
+rfergu$ git push origin main
+# Now you can install george-cloney on you instance with a git pull
+# and it can live right next to the parent app on the same instance!</code></pre>
+</div>
+
+                <div>
+        <p>merge a cloned repo&#x27;s changes back into the parent app repo</p>
+    <pre class="prettyprint"><code>rfergu$ sn-cloner -p ../parent_app_repo -s x_george_cloney -m
+rfergu$ cd ../parent_app_repo
+rfergu$ git diff --stat
+# you should see the incrimental updates merged / marked modified in but not ready for commit
+rfergu$ git checkout --branch georgeCloney # not strictly needed, but probably a good idea
+rfergu$ git add . 
+rfergu$ git commit -m &quot;George Cloney is home to do laundry.&quot;
+rfergu$ git push origin --all
+# something about new branch georgeCloney. At this point you can pull the changes
+# back into the parent app and test them, merge it back to main, or
+# whatever you decide is right for your release process.</code></pre>
+</div>
+
+    </section>
+
+        <dl class="dl-compact">
+            
+            
+            
+        </dl>
+</header>
+
+
+    <section id="summary">
+                
+
+                    <div class="summary-callout">
+            <h2 class="summary-callout-heading">Child class</h2>
+        <div class="summary-content">
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.CloneUtil.html">CloneUtil(clone_scope_name[, parent_repo_path])</a></dt>
+                <dd>
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+</div>
+
+                    <div class="summary-column">
+</div>
+
+        </div>
+    </div>
+
+
+                
+
+                
+
+                    <div class="summary-callout">
+            <h2 class="summary-callout-heading">Properties</h2>
+        <div class="summary-content">
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.html#.name">name</a></dt>
+                <dd>
+                            <p>package.conf name.</p>
+
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.html#.version">version</a></dt>
+                <dd>
+                            <p>package.conf version string.</p>
+
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+</div>
+
+        </div>
+    </div>
+
+
+                    <div class="summary-callout">
+            <h2 class="summary-callout-heading">Methods</h2>
+        <div class="summary-content">
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.html#.calculateGUID">calculateGUID(scope_name, source_sys_id)</a></dt>
+                <dd>
+                            <p>Creates a calculated sys_id based on a namespace hash of the original sys_id.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.html#.getFilesFromGlob">getFilesFromGlob([pathGlob])</a></dt>
+                <dd>
+                            <p>Returns an array of filenames from expanded pathGlob.</p>
+
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+        <dl class="dl-summary-callout">
+                <dt><a href="module-sn-cloner.html#.getIdsFromFiles">getIdsFromFiles([files])</a></dt>
+                <dd>
+                            <p>Returns sys_ids found in files.</p>
+
+                </dd>
+                <dt><a href="module-sn-cloner.html#.getIdsFromGlobPath">getIdsFromGlobPath([pathGlob])</a></dt>
+                <dd>
+                            <p>Return sys_ids found in files matching pathGlob.</p>
+
+                </dd>
+        </dl>
+</div>
+
+                    <div class="summary-column">
+</div>
+
+        </div>
+    </div>
+
+
+                
+
+                
+    </section>
+
+
+
+
+
+            <section>
+                <h2>Class</h2>
+    <section id='members-links'>
+            <h3><a href="module-sn-cloner.CloneUtil.html">CloneUtil</a></h3>
+            
+            
+    </section>
+
+
+            
+
+            
+
+                <h2>Properties</h2>
+    <section>
+                <div class="symbol-detail-labels"><span class="label label-static">static</span></div><h3 id=".name"><span class="symbol-name">name</span></h3>                    <p class="source-link">Source: <a href="index.js.html#source-line-68">index.<wbr>js:68</a></p>
+
+            <p>package.conf name</p>
+
+        
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+                <div class="symbol-detail-labels"><span class="label label-static">static</span></div><h3 id=".version"><span class="symbol-name">version</span></h3>                    <p class="source-link">Source: <a href="index.js.html#source-line-66">index.<wbr>js:66</a></p>
+
+            <p>package.conf version string</p>
+
+        
+        
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </dl>
+
+    </section>
+
+
+                <h2>Methods</h2>
+    <section>
+                <div class="symbol-detail-labels"><span class="label label-static">static</span></div><h3 id=".calculateGUID"><span class="symbol-name">calculateGUID</span><span class="signature"><span class="signature-params">(scope_name, source_sys_id)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-18">lib/<wbr>cloner.<wbr>js:18</a></p>
+
+            <p>Creates a calculated sys_id based on a namespace hash of the original sys_id.</p>
+
+        
+            <section>
+        <h4>Parameters</h4>
+            <table class="jsdoc-details-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Optional</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+        <td>
+            <p>scope_name</p>
+        </td>
+        <td>
+                <p>string</p>
+        </td>
+        <td>
+                <p>&nbsp;</p>
+        </td>
+        <td>
+        </td>
+</tr>
+
+                <tr>
+        <td>
+            <p>source_sys_id</p>
+        </td>
+        <td>
+                <p>string</p>
+        </td>
+        <td>
+                <p>&nbsp;</p>
+        </td>
+        <td>
+        </td>
+</tr>
+
+        </tbody>
+</table>
+
+    </section>
+
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>string</code> </p></dd>
+
+
+
+        </dl>
+
+                <div class="symbol-detail-labels"><span class="label label-static">static</span></div><h3 id=".getFilesFromGlob"><span class="symbol-name">getFilesFromGlob</span><span class="signature"><span class="signature-params">([pathGlob])</span>&nbsp;&rarr; <span class="signature-returns"> array</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-32">lib/<wbr>cloner.<wbr>js:32</a></p>
+
+            <p>Returns an array of filenames from expanded pathGlob</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>let globPattern &#x3D; &quot;parent/**&quot;+&quot;/*.xml&quot; ; // Stay in the comment for the example.
+let xml_files &#x3D; getFilesFromGlob(globPattern); &#x3D;&gt; [ &quot;parent/.../asdfsdfsa.xml&quot;, ... ]</code></pre>
+</div>
+
+    </section>
+
+            <section>
+        <h4>Parameter</h4>
+            <table class="jsdoc-details-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Optional</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+        <td>
+            <p>pathGlob</p>
+        </td>
+        <td>
+                <p>string</p>
+        </td>
+        <td>
+                <p>Yes</p>
+        </td>
+        <td>
+        </td>
+</tr>
+
+        </tbody>
+</table>
+
+    </section>
+
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>array</code> file paths.</p></dd>
+
+
+
+        </dl>
+
+                <div class="symbol-detail-labels"><span class="label label-static">static</span></div><h3 id=".getIdsFromFiles"><span class="symbol-name">getIdsFromFiles</span><span class="signature"><span class="signature-params">([files])</span>&nbsp;&rarr; <span class="signature-returns"> array</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-53">lib/<wbr>cloner.<wbr>js:53</a></p>
+
+            <p>Returns sys_ids found in files</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>let globPattern &#x3D; &quot;parent/**&quot;+&quot;/*.xml&quot; ; // Stay in the comment for the example.
+let xml_files &#x3D; getFilesFromGlob(globPattern); &#x3D;&gt; [ &quot;parent/.../asdfsdfsa.xml&quot;, ... ]
+let ids &#x3D; getIdsFromFiles(xml_files) ; &#x3D;&gt; [&#x27;deadbeefdeadbeef0123456789abcdef&#x27;, ... ]</code></pre>
+</div>
+
+    </section>
+
+            <section>
+        <h4>Parameter</h4>
+            <table class="jsdoc-details-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Optional</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+        <td>
+            <p>files</p>
+        </td>
+        <td>
+                <p>array</p>
+        </td>
+        <td>
+                <p>Yes</p>
+        </td>
+        <td>
+                <p>file paths.</p>
+        </td>
+</tr>
+
+        </tbody>
+</table>
+
+    </section>
+
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>array</code> unique sys_ids found in files and filenames.</p></dd>
+
+
+
+        </dl>
+
+                <div class="symbol-detail-labels"><span class="label label-static">static</span></div><h3 id=".getIdsFromGlobPath"><span class="symbol-name">getIdsFromGlobPath</span><span class="signature"><span class="signature-params">([pathGlob])</span>&nbsp;&rarr; <span class="signature-returns"> array</span></span></h3>                    <p class="source-link">Source: <a href="lib_cloner.js.html#source-line-80">lib/<wbr>cloner.<wbr>js:80</a></p>
+
+            <p>Return sys_ids found in files matching pathGlob</p>
+
+            <section>
+        <h4>
+            Example
+        </h4>
+                <div>
+    <pre class="prettyprint"><code>let globPattern &#x3D; &quot;parent/**&quot;+&quot;/*.xml&quot; ; // Stay in the comment for the example.
+let ids &#x3D; getIdsFromGlobPath(pathGlob) ; &#x3D;&gt; [&#x27;deadbeefdeadbeef0123456789abcdef&#x27;, ... ]</code></pre>
+</div>
+
+    </section>
+
+            <section>
+        <h4>Parameter</h4>
+            <table class="jsdoc-details-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Optional</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+        <td>
+            <p>pathGlob</p>
+        </td>
+        <td>
+                <p>string</p>
+        </td>
+        <td>
+                <p>Yes</p>
+        </td>
+        <td>
+                <p>a glob that gets expanded to matching files</p>
+        </td>
+</tr>
+
+        </tbody>
+</table>
+
+    </section>
+
+        
+
+        <dl class="dl-compact">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt>Returns</dt>
+        <dd><p><code>array</code> sys_ids found in files and filenames identified in pathGlob expansion.</p></dd>
+
+
+
+        </dl>
+
+    </section>
+
+
+            
+
+            
+</section>
+
+                                        </div>
+                                </div>
+                                <nav id="jsdoc-toc-nav" role="navigation"></nav>
+                        </div>
+                </div>
+                <script src="scripts/jquery.min.js"></script>
+                <script src="scripts/tree.jquery.js"></script>
+                <script src="scripts/prettify.js"></script>
+                <script src="scripts/jsdoc-toc.js"></script>
+                <script src="scripts/linenumber.js"></script>
+                <script src="scripts/scrollanchor.js"></script>
+        </body>
+</html>

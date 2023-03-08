@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+        <head>
+                <meta name="generator" content="JSDoc 4.0.2">
+                <meta charset="utf-8">
+                <title>Source: index.js</title>
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+                <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+                <link href="css/baseline.css" rel="stylesheet">
+        </head>
+        <body onload="prettyPrint()">
+                <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+        <div id="jsdoc-navbar-content">
+            <a href="index.html" class="jsdoc-navbar-package-name">Home</a>
+        </div>
+    </div>
+</nav>
+
+                <div id="jsdoc-body-container">
+                        <div id="jsdoc-content">
+                                <div id="jsdoc-content-container">
+                                        <div id="jsdoc-banner" role="banner">
+                                        </div>
+                                        <div id="jsdoc-main" role="main">
+            <header class="page-header">
+                <h1>Source: index.js</h1>
+            </header>
+            <article>
+                <pre class="prettyprint linenums"><code>/**
+ * Modular cloner/merger for service-now scoped application repositories.
+ * @module {object} sn-cloner
+ * @example &amp;lt;caption&gt;create new clone repo in current working directory&amp;lt;/caption&gt;
+ * {
+ *    const CloneUtil &#x3D; require(&quot;@devendor/sn-cloner&quot;).CloneUtil;
+ *     new CloneUtil(&#x27;x_mydev_needit&#x27;,&#x27;../devtraining-needit-tokyo&#x27;)
+ *       .mungeParentToChild(); // -&gt; {Promise}
+ * }
+ *
+ * @example &amp;lt;caption&gt;invoking the cli with npx&amp;lt;/caption&gt;
+ * rfergu$ npx @devendor/sn-cloner
+ * npx: installed 12 in 2.479s
+ * sn-cloner@1.0.8
+ *  
+ * CLI OPTIONS:
+ *  -p, --parentPath&#x3D;[./parent]  Path to parent app we clone from.
+ *  -s, --cloneScope  Scope name for cloned app.
+ *  --action [clone|merge] Clone from parent or merge to parent.
+ *  -m  Shorthand for --action merge
+ *  -c  Shorthand for --action clone
+ *  -h, --help       Show this help
+ *  -v, --version   Show package version
+ *  --cloneScope is a required argument
+ * 
+ * @example &amp;lt;caption&gt;installed locally&amp;lt;/caption&gt;
+ * rfergu$ npm install @devendor/sn-cloner --save-dev
+ * # ...  installs here
+ * rfergu$ ./node_modules/.bin/sn-cloner
+ * sn-cloner@1.0.8
+ * # usage ... 
+ *
+ * @example &amp;lt;caption&gt;create a new repo from parent repo in new scoped namespace&amp;lt;/caption&gt;
+ * rfergu$ sn-cloner -p ../parent_app_repo -s x_george_cloney -c
+ * rfergu$ ls
+ *   sn_source_control.properties x_george_cloney/... x_george_cloney_idmap.json
+ * rfergu$ git init .
+ * rfergu$ git branch -M main
+ * rfergu$ git add .
+ * rfergu$ git commit -m &quot;George Cloney is just like his dad.&quot;
+ * # add a repo to push too first.
+ * rfergu$ git remote add git@github.com:youraccount/george-cloney.git
+ * rfergu$ git push origin main
+ * # Now you can install george-cloney on you instance with a git pull
+ * # and it can live right next to the parent app on the same instance!
+ * 
+ *
+ * @example &amp;lt;caption&gt;merge a cloned repo&#x27;s changes back into the parent app repo&amp;lt;/caption&gt;
+ * rfergu$ sn-cloner -p ../parent_app_repo -s x_george_cloney -m
+ * rfergu$ cd ../parent_app_repo
+ * rfergu$ git diff --stat
+ * # you should see the incrimental updates merged / marked modified in but not ready for commit
+ * rfergu$ git checkout --branch georgeCloney # not strictly needed, but probably a good idea
+ * rfergu$ git add . 
+ * rfergu$ git commit -m &quot;George Cloney is home to do laundry.&quot;
+ * rfergu$ git push origin --all
+ * # something about new branch georgeCloney. At this point you can pull the changes
+ * # back into the parent app and test them, merge it back to main, or
+ * # whatever you decide is right for your release process.
+ */
+
+
+{
+    const pckg &#x3D; require(&quot;./package.json&quot;);
+    /** package.conf version string */
+    exports.version &#x3D; pckg.version;
+    /** package.conf name */
+    exports.name &#x3D; pckg.name;
+    const cloner &#x3D; require(&quot;./lib/cloner.js&quot;);
+    exports.getFilesFromGlob &#x3D; cloner.getFilesFromGlob;
+    exports.getIdsFromFiles &#x3D; cloner.getIdsFromFiles ;
+    exports.getIdsFromGlobPath &#x3D; cloner.getIdsFromGlobPath ;
+    exports.CloneUtil &#x3D; cloner.CloneUtil ;
+    exports.calculateGUID &#x3D; cloner.calculateGUID;
+}
+</code></pre>
+            </article>
+                                        </div>
+                                </div>
+                                <nav id="jsdoc-toc-nav" role="navigation"></nav>
+                        </div>
+                </div>
+                <script src="scripts/jquery.min.js"></script>
+                <script src="scripts/tree.jquery.js"></script>
+                <script src="scripts/prettify.js"></script>
+                <script src="scripts/jsdoc-toc.js"></script>
+                <script src="scripts/linenumber.js"></script>
+                <script src="scripts/scrollanchor.js"></script>
+        </body>
+</html>

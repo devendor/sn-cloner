@@ -1,0 +1,35 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "recurseDepth": 10,
+        "dictionaries": [
+            "jsdoc",
+            "closure"
+        ]
+    },
+    "source":{
+        "include": [
+            "./index.js",
+            "./lib/cloner.js"
+        ],
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+        "template": "./node_modules/jsdoc-baseline",
+        "prism-theme": "prism-custom",
+        "encoding": "utf8",
+        "private": true,
+        "destination": "docs",
+        "recurse": true
+    },
+    "plugins": [
+        "plugins/summarize"
+    ],
+    "templates": {
+        "baseline": "./baseline-config.json"
+    },
+    "metadata": {
+        "title": "module:@devendor/sn-cloner"
+    }
+}
