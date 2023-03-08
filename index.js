@@ -38,7 +38,7 @@
  * rfergu$ git branch -M main
  * rfergu$ git add .
  * rfergu$ git commit -m "George Cloney is just like his dad."
- * # add a repo to push too first.
+ * # add a repo to push to first.
  * rfergu$ git remote add git@github.com:youraccount/george-cloney.git
  * rfergu$ git push origin main
  * # Now you can install george-cloney on you instance with a git pull
